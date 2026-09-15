@@ -115,7 +115,11 @@ const loginUser = async (emailId, password) => {
     };
 };
 
+
+
+
+
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
 };
