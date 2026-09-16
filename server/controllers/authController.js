@@ -11,10 +11,10 @@ const registerUser = async (req, res) => {
             password
         );
 
-        res.cookie('token', result.token,{
+        res.cookie('token', result.token, {
             httpOnly: true,
             maxAge: 7 * 24 * 60 * 60 * 1000,
-        })
+        });
 
         return res.status(201).json({
             message: 'User registered successfully',

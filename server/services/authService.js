@@ -79,8 +79,9 @@ const loginUser = async (emailId, password) => {
     }
 
     if (!validator.isEmail(emailId)) {
-    throw new Error('Please enter a valid email');
+        throw new Error('Please enter a valid email');
     }
+
     // 2. Find user
     const user = await User.findOne({ emailId });
 
@@ -115,11 +116,7 @@ const loginUser = async (emailId, password) => {
     };
 };
 
-
-
-
-
 module.exports = {
     registerUser,
-    loginUser,
+    loginUser
 };
