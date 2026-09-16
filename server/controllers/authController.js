@@ -11,10 +11,10 @@ const registerUser = async (req, res) => {
             password
         );
 
-        res.cookie('token', result.token,{
+        res.cookie('token', result.token, {
             httpOnly: true,
             maxAge: 7 * 24 * 60 * 60 * 1000,
-        })
+        });
 
         return res.status(201).json({
             message: 'User registered successfully',
@@ -31,6 +31,57 @@ const registerUser = async (req, res) => {
     }
 };
 
+const loginUser = async (req, res) => {
+    try {
+
+        const { emailId, password } = req.body;
+
+        const result = await userService.loginUser(
+            emailId,
+            password
+        );
+
+        res.cookie('token', result.token, {
+            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+
+        return res.status(200).json({
+            message: 'Login successful',
+            user: result.user
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        return res.status(400).json({
+            message: error.message
+        });
+    }
+};
+
+const logoutUser = async (req, res) => {
+    try {
+
+        res.clearCookie('token', {
+            httpOnly: true
+        });
+
+        return res.status(200).json({
+            message: 'Logged out successfully'
+        });
+
+    } catch (error) {
+
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+};
+
 module.exports = {
-    registerUser
+    registerUser,
+    loginUser,
+    logoutUser
 };

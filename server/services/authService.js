@@ -71,6 +71,52 @@ const registerUser = async (name, emailId, password) => {
     };
 };
 
+const loginUser = async (emailId, password) => {
+
+    // 1. Validate fields
+    if (!emailId || !password) {
+        throw new Error('Email and password are required');
+    }
+
+    if (!validator.isEmail(emailId)) {
+        throw new Error('Please enter a valid email');
+    }
+
+    // 2. Find user
+    const user = await User.findOne({ emailId });
+
+    if (!user) {
+        throw new Error('Invalid email or password');
+    }
+
+    // 3. Compare password
+    const isPasswordValid = await bcrypt.compare(
+        password,
+        user.password
+    );
+
+    if (!isPasswordValid) {
+        throw new Error('Invalid email or password');
+    }
+
+    // 4. Generate JWT
+    const token = jwt.sign(
+        { userId: user._id },
+        process.env.JWT_SECRET,
+        { expiresIn: '7d' }
+    );
+
+    return {
+        token,
+        user: {
+            id: user._id,
+            name: user.name,
+            email: user.emailId
+        }
+    };
+};
+
 module.exports = {
-    registerUser
+    registerUser,
+    loginUser
 };
