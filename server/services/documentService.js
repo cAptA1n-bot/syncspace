@@ -14,6 +14,38 @@ const createDocument = async (title, ownerId) => {
     return document;
 };
 
+const getAllDocuments = async () => {
+    return await Document.find();
+};
+
+const getDocumentById = async (documentId) => {
+    const document = await Document.findById(documentId);
+
+    if (!document) {
+        throw new Error('Document not found');
+    }
+
+    return document;
+};
+
+const updateDocument = async (documentId, content) => {
+
+    const document = await Document.findByIdAndUpdate(
+        documentId,
+        { content },
+        { new: true }
+    );
+
+    if (!document) {
+        throw new Error('Document not found');
+    }
+
+    return document;
+};
+
 module.exports = {
-    createDocument
+    createDocument,
+    getAllDocuments,
+    getDocumentById,
+    updateDocument
 };
