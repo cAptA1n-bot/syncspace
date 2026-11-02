@@ -1,0 +1,50 @@
+services:
+  # ─── Backend Express Service ────────────────────────────────────────────────
+  - type: web
+    name: syncspace-backend
+    env: node
+    rootDir: SyncSpace/backend
+    plan: free
+    buildCommand: npm install --production=false
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: CLIENT_URL
+        sync: false
+      - key: COOKIE_SECURE
+        value: "true"
+      - key: COOKIE_SAME_SITE
+        value: "none"
+      - key: AI_PROVIDER
+        value: gemini
+      - key: AI_API_KEY
+        sync: false
+
+  # ─── Frontend Next.js Service ───────────────────────────────────────────────
+  - type: web
+    name: syncspace-frontend
+    env: node
+    rootDir: SyncSpace/frontend
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_BASE_URL
+        sync: false
+      - key: NEXT_PUBLIC_SOCKET_URL
+        sync: false
+
