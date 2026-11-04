@@ -20,6 +20,8 @@
 
 ## 📸 Screenshots
 
+> 💡 **Add your own screenshots** by saving `.png` files to `docs/screenshots/` and committing them. See the [screenshot guide](#-adding-your-own-screenshots) below.
+
 ### 🏠 Landing Page
 > *The landing page — start collaborating or sign in.*
 
@@ -80,6 +82,34 @@
 > *Permission-aware full-text search across all documents you have access to.*
 
 ![Search](docs/screenshots/09-search.png)
+
+---
+
+## 📸 Adding Your Own Screenshots
+
+To populate the screenshots above:
+
+1. Take screenshots of your running app at [https://syncspace-theta-dun.vercel.app](https://syncspace-theta-dun.vercel.app)
+2. Save each file into `docs/screenshots/` with the exact filenames listed below:
+
+| Filename | What to Capture |
+|---|---|
+| `01-landing.png` | The landing / home page |
+| `02-auth.png` | Register or login form |
+| `03-dashboard.png` | Dashboard with sidebar |
+| `04-editor.png` | Editor with formatting toolbar |
+| `05-collaboration.png` | Two windows on same document |
+| `06-ai-summary.png` | AI summary modal open |
+| `07-workspace.png` | Workspace members list |
+| `08-share.png` | Share document dialog |
+| `09-search.png` | Search results page |
+
+3. Commit and push:
+```bash
+git add docs/screenshots/
+git commit -m "docs: add feature screenshots"
+git push origin main
+```
 
 ---
 
