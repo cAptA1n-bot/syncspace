@@ -41,9 +41,34 @@ if (process.env.NODE_ENV !== 'test') {
 const getAllowedOrigins = () => {
   const envUrls = (process.env.CLIENT_URL || 'http://localhost:5173')
     .split(',')
-    .map((url) => url.trim().replace(/\/$/, ''))
+    .map((url) => url.trim().replace(/^['"]|['"]$/g, '').replace(/\/$/, ''))
     .filter(Boolean);
   return envUrls;
+};
+
+const isOriginAllowed = (origin) => {
+  if (!origin) return true;
+  const cleanOrigin = origin.trim().replace(/\/$/, '');
+  const allowed = getAllowedOrigins();
+
+  if (allowed.includes('*') || allowed.includes(cleanOrigin)) {
+    return true;
+  }
+
+  // Check wildcard patterns (e.g. https://*.vercel.app)
+  for (const item of allowed) {
+    if (item.includes('*')) {
+      const regex = new RegExp('^' + item.replace(/\./g, '\\.').replace(/\*/g, '.*') + '$');
+      if (regex.test(cleanOrigin)) return true;
+    }
+  }
+
+  // Allow all Vercel deployment & preview subdomains (*.vercel.app)
+  if (/\.vercel\.app$/.test(cleanOrigin)) {
+    return true;
+  }
+
+  return false;
 };
 
 // ─── Security middleware ─────────────────────────────────────────────────────
@@ -55,7 +80,7 @@ app.use(helmet({
       scriptSrc: ["'self'"],
       styleSrc: ["'self'", "'unsafe-inline'"],
       imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
-      connectSrc: ["'self'", ...getAllowedOrigins()],
+      connectSrc: ["'self'", ...getAllowedOrigins(), 'https://*.vercel.app', 'wss:'],
     },
   },
 }));
@@ -63,10 +88,10 @@ app.use(helmet({
 // ─── CORS ────────────────────────────────────────────────────────────────────
 app.use(cors({
   origin: (origin, callback) => {
-    const allowed = getAllowedOrigins();
-    if (!origin || allowed.includes('*') || allowed.includes(origin.replace(/\/$/, ''))) {
+    if (isOriginAllowed(origin)) {
       callback(null, true);
     } else {
+      logger.warn(`[CORS] Blocked request from origin: ${origin}`);
       callback(new Error(`Origin ${origin} not allowed by CORS`));
     }
   },

@@ -138,15 +138,30 @@ const sendAwareness = (socket, awareness) => {
 const initSocketIO = (httpServer) => {
   const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
     .split(',')
-    .map((url) => url.trim().replace(/\/$/, ''))
+    .map((url) => url.trim().replace(/^['"]|['"]$/g, '').replace(/\/$/, ''))
     .filter(Boolean);
+
+  const isOriginAllowed = (origin) => {
+    if (!origin) return true;
+    const clean = origin.trim().replace(/\/$/, '');
+    if (allowedOrigins.includes('*') || allowedOrigins.includes(clean)) return true;
+    if (/\.vercel\.app$/.test(clean)) return true;
+    for (const item of allowedOrigins) {
+      if (item.includes('*')) {
+        const regex = new RegExp('^' + item.replace(/\./g, '\\.').replace(/\*/g, '.*') + '$');
+        if (regex.test(clean)) return true;
+      }
+    }
+    return false;
+  };
 
   const io = new Server(httpServer, {
     cors: {
       origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes('*') || allowedOrigins.includes(origin.replace(/\/$/, ''))) {
+        if (isOriginAllowed(origin)) {
           callback(null, true);
         } else {
+          logger.warn(`[Socket.IO CORS] Blocked origin: ${origin}`);
           callback(new Error(`Origin ${origin} not allowed by Socket.IO CORS`));
         }
       },
