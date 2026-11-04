@@ -18,6 +18,71 @@
 
 ---
 
+## 📸 Screenshots
+
+### 🏠 Landing Page
+> *The landing page — start collaborating or sign in.*
+
+![Landing Page](docs/screenshots/01-landing.png)
+
+---
+
+### 🔐 Authentication
+> *Clean, minimal registration and login forms.*
+
+![Auth Screen](docs/screenshots/02-auth.png)
+
+---
+
+### 🗂️ Dashboard
+> *Your personal space — recent documents, workspaces, and sidebar navigation.*
+
+![Dashboard](docs/screenshots/03-dashboard.png)
+
+---
+
+### 📝 Rich-Text Editor
+> *Full-featured block editor with formatting toolbar, task lists, tables, and radiant highlights.*
+
+![Editor](docs/screenshots/04-editor.png)
+
+---
+
+### ⚡ Real-Time Collaboration
+> *Two users editing the same document simultaneously — changes sync instantly.*
+
+![Collaboration](docs/screenshots/05-collaboration.png)
+
+---
+
+### 🤖 AI Document Summary
+> *One-click Gemini AI summarization: TL;DR, Executive Summary, or Action Items.*
+
+![AI Summary](docs/screenshots/06-ai-summary.png)
+
+---
+
+### 🏢 Workspace & Members
+> *Create team workspaces, invite members by email, and assign roles.*
+
+![Workspace](docs/screenshots/07-workspace.png)
+
+---
+
+### 🔗 Document Sharing
+> *Share documents with specific users or publish a public view-only link.*
+
+![Sharing](docs/screenshots/08-share.png)
+
+---
+
+### 🔍 Search
+> *Permission-aware full-text search across all documents you have access to.*
+
+![Search](docs/screenshots/09-search.png)
+
+---
+
 ## 🌟 Key Features
 
 ### 📝 Block-Based Rich-Text Editing
@@ -265,3 +330,4 @@ SyncSpace-Project/
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
+
