@@ -13,6 +13,9 @@ RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
 # Copy application source
 COPY src/ ./src/
 
+# Create uploads directory and grant ownership to non-root node user
+RUN mkdir -p /app/uploads && chown -R node:node /app
+
 # Set production environment defaults
 ENV NODE_ENV=production \
     PORT=3000
